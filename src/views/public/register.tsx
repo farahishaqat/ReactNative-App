@@ -25,7 +25,7 @@ const Register = ({route}: any) => {
           </View>
      
         <View style={styles.formWrapper}>
-          <Text style={styles.registerText}>Register page</Text>
+          <Text style={styles.registerText}>Register</Text>
           <CustomTextInput
             placeholder={"Email.."}
             onchange={() => {}}
