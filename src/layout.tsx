@@ -6,11 +6,6 @@ import React from 'react';
 const Layout = () => {
   return (
     <NavigationContainer>
-      {/*
-       * Stack navigation ?
-       * bottom tab navigation
-       * Drawer
-       */}
       {/* 
 
                 if user is logged in ?
@@ -18,6 +13,8 @@ const Layout = () => {
                     :
                      <PublicNavigator />
             */}
+  
+
 
       <PublicNavigator />
       {/* <PrivateNavigation /> */}

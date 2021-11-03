@@ -1,5 +1,5 @@
-import React from 'react';
 import Layout from './src/layout';
+import React from 'react';
 
 const App = () => {
   return (

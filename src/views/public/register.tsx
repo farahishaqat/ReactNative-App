@@ -8,6 +8,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 
 const Register = ({route}: any) => {
+
+  
   console.log(route);
   const navigator = useNavigation<any>();
   return (
