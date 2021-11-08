@@ -10,9 +10,12 @@ const slice = createSlice({
     reducers: {
         loginSuccess: (state = initialState, action) => {
             state.user = action.payload;
+        },
+        logoutSuccess: (state = initialState, action) => {
+            state.user == null
         }
     }
 });
 
 export default slice.reducer;
-export const { loginSuccess } = slice.actions;
+export const { loginSuccess , logoutSuccess} = slice.actions;

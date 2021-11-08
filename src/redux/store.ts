@@ -5,7 +5,7 @@ import userReducer from "./reducers/userReducer";
 
 const reducers = combineReducers({
     userReducer,
-    loadingReducer
+    loadingReducer,
 })
 
 const store = configureStore({

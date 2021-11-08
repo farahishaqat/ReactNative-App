@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IptvReducerState } from '../../redux/store';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { loginSuccess } from '../../redux/reducers/userReducer';
+import { logoutSuccess } from '../../redux/reducers/userReducer';
+
+// import { logoutSuccess } from '../../redux/reducers/userReducer';
 
 const Settings = () => {
 
@@ -13,7 +15,7 @@ const Settings = () => {
 
     const logout=()=>{
         
-        //dispatch(logoutSuccess(null))
+        dispatch(logoutSuccess(null))
     }
     
   return (
