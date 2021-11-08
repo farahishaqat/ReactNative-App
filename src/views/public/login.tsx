@@ -60,18 +60,17 @@ const CustomBorderedBox = ({ children }: any) => {
 }
 
 const Login = () => {
-    const [email, setEmail] = useState<{ value: string, valid: boolean }>();
-    const [password, setPassword] = useState<string>('');
+    // const [email, setEmail] = useState<{ value: string, valid: boolean }>();
+    // const [password, setPassword] = useState<string>('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch()
-    //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navigator = useNavigation<any>();
+    const dispatch = useDispatch();
 
-    const emailRef = useRef({ value: '', valid: false });
-    const passwordRef = useRef({ value: '', valid: false });
+    const email = useRef({ value: '', valid: false });
+    const password = useRef({ value: '', valid: false });
     const fullName = useRef('');
     console.log('[App]: Rerender');
 
@@ -85,7 +84,6 @@ const Login = () => {
     useEffect(() => {
         console.log('[Use Effect] Start');
         console.log('first name: ', firstName);
-
         return () => {
             // cleanup
             fullName.current = '';
@@ -99,7 +97,6 @@ const Login = () => {
         (async () => {
             const token = await AsyncStorage.getItem('@token');
             console.log('User already logged in ? ', token);
-            // setIsLoggedIn(!!token);
             /**
              * 
              *    true / false
@@ -134,14 +131,13 @@ const Login = () => {
 
     const handleLogin = async () => {
         setLoading(true);
-        const result = await login(emailRef.current.value, passwordRef.current.value);
+        const result = await login(email.current.value, password.current.value);
         await AsyncStorage.setItem('@token', result);
-        // setIsLoggedIn(true);
         // dispatch user in redux
         dispatch(loginSuccess({
-            email:'demo@demo.com',
-            username:'demouser'}))
-        
+            email: 'demo@demo.com',
+            username: 'demoUser'
+        }))
         setLoading(false);
     }
 
@@ -150,7 +146,7 @@ const Login = () => {
         // retrieve token
         return new Promise<string>((resolve, reject) => {
             // simulate login on api
-            const token = '1234567';
+            const token = '12345671341234';
             console.log('trying to login ....')
             setTimeout(() => {
                 console.log(`${email}, logged in ...`);
@@ -161,16 +157,15 @@ const Login = () => {
 
     const handleLogout = async () => {
         await AsyncStorage.removeItem('@token');
-        //setIsLoggedIn(false);
     }
 
     const handleInputChange = (inputType: string, inputValue: string) => {
         if (inputType == 'email') {
-            console.log('[before update]', emailRef.current);
-            emailRef.current.value = inputValue;
-            console.log('[after update]', emailRef.current)
+            console.log('[before update]', email.current);
+            email.current.value = inputValue;
+            console.log('[after update]', email.current)
             let regx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-            emailRef.current.valid = regx.test(emailRef.current.value)
+            email.current.valid = regx.test(email.current.value)
             // setEmail({
             //   value: inputValue,
             //   valid: regx.test(inputValue)
@@ -178,7 +173,7 @@ const Login = () => {
             console.log(email);
         } else if (inputType == 'password') {
             console.log('[Updating password value]', inputValue);
-            passwordRef.current.value = inputValue;
+            password.current.value = inputValue;
             // setPassword(inputValue);
         } else if (inputType == 'firstName') {
             setFirstName(inputValue);
@@ -196,16 +191,13 @@ const Login = () => {
                     <View style={styles.logoContainer}>
                         <Image style={styles.logo} source={require('../../../assets/images/ngIcon.png')} />
                     </View>
-               
-                     {/* <TouchableOpacity style={styles.loginButton} onPress={handleLogout}>
-                        <Text style={styles.loginText}>
-                            {loading ?
-                                <ActivityIndicator color={'#fff'} size={'small'} />
-                                : 'Logout'}
-                        </Text>
-                    </TouchableOpacity> */}
-                    
-                     <View style={styles.formWrapper}>
+                    <Text style={{
+                        color: '#fff',
+                        marginTop: 30,
+                        alignSelf: 'center',
+                        fontSize: 30
+                    }}>{'Login'}</Text>
+                    <View style={styles.formWrapper}>
                         <CustomTextInput
                             placeholder={'Email..'}
                             onchange={(text: string) => handleInputChange('email', text)} />

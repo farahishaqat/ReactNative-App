@@ -1,23 +1,18 @@
-import { AppState } from 'react-native'
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState={
-    user:<any>{}
-}
+const initialState = {
+    user: <any>{}
+};
 
 const slice = createSlice({
-    name:'userReducer',
+    name: 'userReducer',
     initialState: initialState,
-    reducers:{
-        loginSuccess:(state= initialState,action)=> {
-            state.user =action.payload
+    reducers: {
+        loginSuccess: (state = initialState, action) => {
+            state.user = action.payload;
         }
     }
-    
 });
 
-
-
-
 export default slice.reducer;
-export const {loginSuccess}= slice.actions;
+export const { loginSuccess } = slice.actions;

@@ -3,12 +3,22 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IptvReducerState } from './redux/reducers/store';
+import AuthContextProvidor from './context/authContext/authContextProvidor';
+import {IptvReducerState} from './redux/store';
 import {NavigationContainer} from '@react-navigation/native';
+import ThemeContext from './context/themeContext';
 import {loginSuccess} from './redux/reducers/userReducer';
 
+const themesStyle = {
+  light: {
+    backGroundColor: '#ffffff',
+  },
+  black: {
+    backGroundColor: 'black',
+  },
+};
 const Layout = () => {
-  const user = useSelector((state: IptvReducerState) => state.user);
+  const user = useSelector((state: IptvReducerState) => state.userReducer.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,23 +31,28 @@ const Layout = () => {
     const token = await AsyncStorage.getItem('@token');
     if (token) {
       // update user
-      console.log('Updating user with dispatch')
+      console.log('Updating user with dispatch');
       // login success takes the payload which is the data provided by the user
-      dispatch(loginSuccess({
+      dispatch(
+        loginSuccess({
           email: 'demo@demo.com',
-          username:'demouser'
-      }));
+          username: 'demouser',
+        }),
+      );
       // user = decode token
     }
   };
 
   return (
+    <>
     <NavigationContainer>
-
-      {user && user.email ?
-      <PrivateNavigation/> : <PublicNavigator/>
-      }
+      <AuthContextProvidor>
+        <ThemeContext.Provider value={themesStyle.light}>
+          {user && user.email ? <PrivateNavigation /> : <PublicNavigator />}
+        </ThemeContext.Provider>
+      </AuthContextProvidor>
     </NavigationContainer>
+    </>
   );
 };
 

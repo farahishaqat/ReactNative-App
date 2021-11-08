@@ -1,8 +1,62 @@
+import React, {useRef, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import CustomTextInput from '../../containers/customTextInput';
-import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+
+const ForgetPassword = () => {
+  const [email, setEmail] = useState<{value: string; valid: boolean}>();
+  const emailRef = useRef({ value: '', valid: false });
+  console.log('emailREEEFF:', emailRef);
+  const navigator = useNavigation<any>();
+
+  const handleInputChange = (inputValue: string) => {
+   
+      //console.log('[before update]', email.current);
+      emailRef.current.value = inputValue;
+      //console.log('[after update]', email.current);
+      let regx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+      emailRef.current.valid = regx.test(emailRef.current.value);
+      setEmail({
+        value: inputValue,
+        valid: regx.test(inputValue)
+      })
+      console.log(email);
+    
+  };
+
+  const handleResetEmail = () => {
+
+    //navigate to OTP
+    navigator.navigate('Otp')
+
+  };
+
+  console.log('Email state', email);
+
+  return (
+    <>
+      <View style={styles.container}>
+        <View style={styles.formWrapper}>
+          <TouchableOpacity
+            onPress={() => {
+              // navigate to login page
+              navigator.goBack();
+            }}>
+            <Text style={styles.backBtn}>Back</Text>
+          </TouchableOpacity>
+          <Text style={styles.header}>Forgot password ?</Text>
+          <CustomTextInput placeholder={'Email ...'} onchange={handleInputChange} />
+          <TouchableOpacity onPress={handleResetEmail}>
+            <Text style={styles.resetBtn}>Reset Password</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
+  );
+};
+
+export default ForgetPassword;
 
 const styles = StyleSheet.create({
   container: {
@@ -35,33 +89,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-const ForgetPassword = () => {
-  const navigator = useNavigation();
-
-  return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.formWrapper}>
-          <TouchableOpacity
-            onPress={() => {
-              // navigate to login page
-              navigator.goBack();
-            }}>
-            <Text style={styles.backBtn}>Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.header}>Forgot password ?</Text>
-          <CustomTextInput placeholder={'Email ...'} onchange={() => {}} />
-          <TouchableOpacity
-            onPress={() => {
-              // navigate to Otp
-            }}>
-            <Text style={styles.resetBtn}>Reset Password</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </>
-  );
-};
-
-export default ForgetPassword;
