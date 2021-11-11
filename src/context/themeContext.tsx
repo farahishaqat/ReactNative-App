@@ -1,6 +1,4 @@
-import React, { createContext } from "react";
-
-//context api providor/ consumer
+import React, { createContext } from 'react';
 
 const ThemeContext = createContext({});
 

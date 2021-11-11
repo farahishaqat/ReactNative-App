@@ -7,7 +7,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "clean": "cd android && ./gradlew clean && cd ../",
+    "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "build": "cd android && ./gradlew assembleDebug && cd ../",
+    "buildApk": "npm run clean && npm run bundle && npm run build"
   },
   "dependencies": {
     "@babel/preset-env": "^7.16.0",
@@ -20,7 +24,9 @@
     "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.24.0",
     "axios-hooks": "^3.0.0",
+    "i18next": "^21.4.2",
     "react": "17.0.2",
+    "react-i18next": "^11.14.1",
     "react-native": "0.66.1",
     "react-native-async-storage": "0.0.1",
     "react-native-gesture-handler": "^1.10.3",
@@ -28,8 +34,11 @@
     "react-native-otp-auto-fill": "^0.1.7",
     "react-native-otp-form": "^1.0.2",
     "react-native-otp-inputs": "^7.1.1",
+    "react-native-permissions": "^3.1.0",
+    "react-native-restart": "0.0.22",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
+    "react-native-splash-screen": "^3.2.0",
     "react-redux": "^7.2.6"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import CustomTextInput from './customTextInput';
 
@@ -26,6 +27,7 @@ const PostCard = ({ item, showPostDetails, updateItem, currentUser }: {
     currentUser: any
 }) => {
     console.log('Post card component ', item.id);
+    const { t } = useTranslation();
     return (
         <View style={styles.card}>
             {/* <Text style={styles.text}>{item.title}</Text>
@@ -33,10 +35,10 @@ const PostCard = ({ item, showPostDetails, updateItem, currentUser }: {
             <CustomTextInput placeholder={item.title} onchange={() => { }} />
             <CustomTextInput placeholder={item.body} onchange={() => { }} />
             <TouchableOpacity onPress={() => showPostDetails(item)}>
-                <Text>Show more</Text>
+                <Text>{t('home.showMore')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => updateItem(item)}>
-                <Text>Update</Text>
+                <Text>{t('home.update')}</Text>
             </TouchableOpacity>
             <Text style={styles.text}>{currentUser && item.userId == currentUser.id ? 'Updated by you.' : 'updated...'}</Text>
         </View>

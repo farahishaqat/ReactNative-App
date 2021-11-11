@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -8,10 +8,6 @@ import Title from '../../containers/title';
 import UpdateCheck from '../../containers/updateCheck';
 import WhoAmI from '../../containers/updateCheck';
 import ThemeContext from '../../context/themeContext';
-import AuthContext from '../../context/authContext/authContext';
-import { useTranslation } from 'react-i18next';
-import requestPermission from '../../permissions/permissions';
-import permissionsTypes from '../../permissions/permissions-types';
 
 const styles = StyleSheet.create({
     container: {
@@ -36,19 +32,15 @@ const styles = StyleSheet.create({
     }
 })
 
-const Home = () => {
+const HomeWithContextConsumer = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [showWhoAmI, setShowWhoAmI] = useState<boolean>(false);
     const [posts, setPosts] = useState<any[]>([]);
     const navigator = useNavigation<any>();
     const [user, setUser] = useState<{ name: string, email: string, id: number }>();
     const { data, loading: getPostsLoading, error, refetch } = useGetPosts();
-    const { t } = useTranslation();
-    const themeValue = useContext(ThemeContext);
-    const authContext = useContext(AuthContext);
 
-    console.log('Theme context ', themeValue)
-    console.log('Auth context ', authContext)
+    console.log('ReRender')
     useEffect(() => {
         // get token / user data (get user data)
         setUser({
@@ -101,61 +93,21 @@ const Home = () => {
         />
     );
 
-    const handleShowWhoAmI = async () => {
-        setShowWhoAmI(!showWhoAmI);
-        await requestPermission(permissionsTypes.CAMERA);
+    const handleShowWhoAmI = () => {
+        setShowWhoAmI(!showWhoAmI)
     }
 
     return (
-        <View style={{
-            flex: 1,
-            backgroundColor: themeValue.backgroundColor
-        }}>
-            {/* <UpdateCheck /> */}
-            {/* <Title text={'Posts'} size={'large'} /> */}
-            <TouchableOpacity onPress={handleShowWhoAmI}>
-                <Text>who am i?</Text>
-            </TouchableOpacity>
-
-            {/* switch case */}
+        <ThemeContext.Consumer>
             {
-                showWhoAmI && user && <WhoAmI
-                    currentUser={user}
-                >
-                    {/* props.Children */}
-                    <Text style={{ color: '#fff' }}>I am one of the props</Text>
-                    <ActivityIndicator />
-                </WhoAmI>
+                value => (
+                    <View style={{ backgroundColor: value.backgroundColor, padding: 20 }}>
+                        <Text>Consumed theme</Text>
+                    </View>
+                )
             }
-
-            <Title text={`${t('home.greet')} ${user?.name}`} size={'large'} />
-            <TouchableOpacity style={{
-                padding: 10,
-                borderWidth: 1,
-                borderRadius: 10,
-                marginVertical: 5
-            }} onPress={handleAddNewItem}>
-                <Text>+ {t('home.addPost')}</Text>
-            </TouchableOpacity>
-            <FlatList
-                data={posts}
-                keyExtractor={(item, index) => `${item.id}`}
-                renderItem={renderItem}
-                ListEmptyComponent={() => <Text>Could not find data.</Text>}
-                ListFooterComponent={() => {
-                    return (
-                        <>
-                            {
-                                getPostsLoading ? <ActivityIndicator size={'large'} /> : <Text>This is it!</Text>
-                            }
-                        </>
-                    )
-                }}
-
-                refreshControl={<RefreshControl refreshing={loading} onRefresh={refresh} />}
-            />
-        </View>
+        </ThemeContext.Consumer>
     );
 }
 
-export default Home;
+export default HomeWithContextConsumer;

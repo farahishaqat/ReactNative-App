@@ -1,15 +1,14 @@
-import AddPost from '../views/private/addPost';
-import ForgetPassword from '../views/public/forgetPassword';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
 import Home from '../views/private/home';
 import Login from '../views/public/login';
-import Otp from '../views/public/otp';
-import PostDetails from '../views/private/postDetails';
-import React from 'react';
-import Register from '../views/public/register';
 import Settings from '../views/private/settings';
-import UpdatePost from '../views/private/updatePost';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import ForgetPassword from '../views/public/forgetPassword';
+import Register from '../views/public/register';
+import PostDetails from '../views/private/postDetails';
+import AddPost from '../views/private/addPost';
+import UpdatePost from '../views/private/updatePost';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -79,10 +78,6 @@ const PublicNavigator = () => {
             <Stack.Screen
                 name="Register"
                 component={Register}
-            />
-               <Stack.Screen
-                name="Otp"
-                component={Otp}
             />
         </Stack.Navigator>
     )

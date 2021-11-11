@@ -1,10 +1,9 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native"
-import React, { useEffect, useRef, useState } from 'react';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-
-import CustomTextInput from '../../containers/customTextInput';
 import useAxios from 'axios-hooks';
-import useUpdatePost from '../../apis/updatePost';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native"
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import useUpdatePost from '../../apis/posts/updatePost';
+import CustomTextInput from '../../containers/customTextInput';
 
 // POST : https://jsonplaceholder.typicode.com/posts
 

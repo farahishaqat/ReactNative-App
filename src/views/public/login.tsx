@@ -1,11 +1,12 @@
-import { ActivityIndicator, Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { changeLanguage } from '../../../i18n';
 import CustomTextInput from '../../containers/customTextInput';
 import { loginSuccess } from '../../redux/reducers/userReducer';
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -65,10 +66,9 @@ const Login = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [loading, setLoading] = useState(false);
-
     const navigator = useNavigation<any>();
     const dispatch = useDispatch();
-
+    const { t } = useTranslation();
     const email = useRef({ value: '', valid: false });
     const password = useRef({ value: '', valid: false });
     const fullName = useRef('');
@@ -182,6 +182,13 @@ const Login = () => {
             setLastName(inputValue);
         }
     }
+
+
+    const handleChangeLanguage = async () => {
+        const currentLanguage = await AsyncStorage.getItem('@language');
+        changeLanguage(currentLanguage === 'en' ? 'ar' : 'en');
+    }
+
     return (
         <SafeAreaView style={{
             flex: 1
@@ -196,10 +203,10 @@ const Login = () => {
                         marginTop: 30,
                         alignSelf: 'center',
                         fontSize: 30
-                    }}>{'Login'}</Text>
+                    }}>{t('login.loginTitle')}</Text>
                     <View style={styles.formWrapper}>
                         <CustomTextInput
-                            placeholder={'Email..'}
+                            placeholder={t('form.email')}
                             onchange={(text: string) => handleInputChange('email', text)} />
                         <CustomTextInput
                             placeholder={'Password..'}
@@ -213,15 +220,19 @@ const Login = () => {
                         }}>
                             <Text
                                 style={styles.forgetPassword}
-                            >Forgot your password?</Text>
+                            >{t('login.forgetPassword')}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
                             <Text style={styles.loginText}>
                                 {loading ?
                                     <ActivityIndicator color={'#fff'} size={'small'} />
-                                    : 'Login'}
+                                    : t('login.loginTitle')}
                             </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={handleChangeLanguage} style={styles.loginButton}>
+                            <Text style={styles.loginText}>{t('general.language')}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

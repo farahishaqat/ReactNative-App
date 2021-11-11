@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     }
 })
 
-const WhoAmI = ({ currentUser }: any) => {
+const WhoAmI = (props: any) => {
 
     useEffect(() => {
         // hit api
@@ -19,10 +19,11 @@ const WhoAmI = ({ currentUser }: any) => {
 
     return (
         <View style={styles.card}>
-            <Avatar currentUser={currentUser} />
-            <Text style={{ color: '#fff' }}>Name: {currentUser.name}</Text>
-            <Text style={{ color: '#fff' }}>Email: {currentUser.email}</Text>
+            <Avatar currentUser={props.currentUser} />
+            <Text style={{ color: '#fff' }}>Name: {props.currentUser.name}</Text>
+            <Text style={{ color: '#fff' }}>Email: {props.currentUser.email}</Text>
             {/* <NumberOfPostsAndLike currentUser={currentUser}/> */}
+            {props.children}
         </View>
     )
 }
